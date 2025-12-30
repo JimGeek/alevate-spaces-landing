@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { BrandCard } from "@/components/BrandCard";
+import { Footer } from "@/components/Footer";
 import { Brand } from "@/types";
 
 export const dynamic = 'force-dynamic';
@@ -9,7 +10,8 @@ async function getBrands(): Promise<Brand[]> {
   // In a real scenario, this would fetch from the Django API.
   // For now, we'll try to fetch, and if it fails (e.g., during build if backend isn't running), return mock data or empty.
   try {
-    const res = await fetch("http://127.0.0.1:8000/api/brands/", { cache: "no-store" });
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+    const res = await fetch(`${apiUrl}/api/brands/`, { cache: "no-store" });
     if (!res.ok) throw new Error("Failed to fetch brands");
     return res.json();
   } catch (error) {
@@ -41,13 +43,7 @@ export default async function Home() {
       </section>
 
       {/* Footer */}
-      <footer id="contact" className="py-12 border-t border-border bg-secondary/5">
-        <div className="container px-6 text-center">
-          <h3 className="text-2xl font-bold mb-8">Ready to Elevate?</h3>
-          <p className="text-muted-foreground mb-8">Contact us at hello@alevatespaces.com</p>
-          <p className="text-sm text-muted-foreground/60">© 2025 Alevate Spaces Pvt Ltd. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
     </main>
   );
 }

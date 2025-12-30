@@ -20,5 +20,6 @@ export interface Founder {
     vision_quote?: string;
     linkedin_url?: string;
     twitter_url?: string;
+    expertise?: string[]; // New field for "Key Focus Areas"
     order: number;
 }

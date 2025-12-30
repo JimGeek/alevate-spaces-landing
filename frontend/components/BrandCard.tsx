@@ -40,8 +40,12 @@ export function BrandCard({ brand, index }: { brand: Brand; index: number }) {
             <div className="absolute inset-0 z-10 flex flex-col justify-end p-8">
                 <div className="transform transition-transform duration-500 group-hover:-translate-y-4">
                     <div className="flex items-center justify-between mb-4">
-                        {/* Logo would go here if available as text or small img */}
-                        <h3 className="text-3xl font-bold text-foreground tracking-tight">{brand.name}</h3>
+                        <div className="flex items-center gap-4">
+                            {brand.logo ? (
+                                <img src={brand.logo} alt={`${brand.name} logo`} className="h-12 w-auto object-contain invert brightness-0 filter" />
+                            ) : null}
+                            <h3 className="text-3xl font-bold text-foreground tracking-tight">{brand.name}</h3>
+                        </div>
                         {brand.website_url && (
                             <Link
                                 href={brand.website_url}

@@ -20,53 +20,72 @@ class Command(BaseCommand):
             {
                 "name": "Lumina",
                 "one_liner": "Intelligence that illuminates your life.",
-                "description": "Lumina enhances modern living spaces through AI-adaptive lighting solutions that sync with your circadian rhythm. Our flagship panels offer mood-based ambience control, energy efficiency, and seamless smart home integration, making every moment at home visually perfect.",
+                "description": "Lumina enhances modern living spaces through AI-adaptive lighting solutions that sync with your circadian rhythm.",
                 "launch_date": date(2024, 6, 15),
                 "status": "revenue",
                 "order": 1,
-                "website_url": "https://lumina.example.com"
+                "website_url": "https://lumina.example.com",
+                "logo_filename": "lumina.png"
             },
             {
                 "name": "Velvet & Oak",
                 "one_liner": "Timeless craftsmanship for the modern estate.",
-                "description": "Velvet & Oak bridges the gap between heritage artistry and contemporary minimalism. Utilizing strictly ethically sourced timber and premium fabrics, each piece is a testament to durability and style. Our collections are curated to transform houses into legacies.",
+                "description": "Velvet & Oak bridges the gap between heritage artistry and contemporary minimalism.",
                 "launch_date": None,
                 "status": "manufacturing",
                 "order": 2,
-                "website_url": "https://velvetandoak.example.com"
+                "website_url": "https://velvetandoak.example.com",
+                "logo_filename": "velvet-oak.png"
             },
             {
                 "name": "Aura Scent",
                 "one_liner": "Personalized olfactory experiences driven by AI.",
-                "description": "Aura Scent uses advanced machine learning to design fragrances that are uniquely yours. From home diffusers to personal perfumes, we create sustainable scents that evoke your most cherished memories and elevate your daily rituals.",
+                "description": "Aura Scent uses advanced machine learning to design fragrances that are uniquely yours.",
                 "launch_date": None,
                 "status": "ideation",
                 "order": 3,
-                "website_url": ""
+                "website_url": "",
+                "logo_filename": "aura-scent.png"
             },
             {
                 "name": "Urban Harvest",
                 "one_liner": "Farm-to-table, right from your living room.",
-                "description": "Revolutionizing urban nutrition with sleek, automated hydroponic units. Urban Harvest allows anyone to grow pesticide-free, nutrient-rich greens in the comfort of their apartment with zero hassle.",
+                "description": "Revolutionizing urban nutrition with sleek, automated hydroponic units.",
                 "launch_date": None,
                 "status": "manufacturing",
                 "order": 4,
-                "website_url": "https://urbanharvest.example.com"
+                "website_url": "https://urbanharvest.example.com",
+                "logo_filename": "urban-harvest.png"
             },
             {
                 "name": "Nova Sleep",
                 "one_liner": "Engineering the perfect night's rest.",
-                "description": "Backed by sleep science, Nova Sleep creates ergonomic mattresses and bedding that adapt to your body temperature and posture. Wake up ready to conquer the day with our restorative technology.",
+                "description": "Backed by sleep science, Nova Sleep creates ergonomic mattresses and bedding.",
                 "launch_date": date(2023, 11, 1),
                 "status": "revenue",
                 "order": 5,
-                "website_url": "https://novasleep.example.com"
+                "website_url": "https://novasleep.example.com",
+                "logo_filename": "nova-sleep.png"
             }
         ]
 
+        # Path to frontend public folder where images are stored
+        frontend_brands_path = os.path.join(settings.BASE_DIR, '../frontend/public/brands')
+
         for data in brands_data:
-            Brand.objects.create(**data)
-            self.stdout.write(f"Created brand: {data['name']}")
+            logo_filename = data.pop('logo_filename', None)
+            brand = Brand.objects.create(**data)
+            
+            if logo_filename:
+                file_path = os.path.join(frontend_brands_path, logo_filename)
+                if os.path.exists(file_path):
+                    with open(file_path, 'rb') as f:
+                        brand.logo.save(logo_filename, File(f), save=True)
+                        self.stdout.write(f"Attached logo for {brand.name}")
+                else:
+                    self.stdout.write(self.style.WARNING(f"Logo file not found: {file_path}"))
+            
+            self.stdout.write(f"Created brand: {brand.name}")
 
         # Create Founders
         founders_data = [
