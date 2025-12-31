@@ -96,7 +96,7 @@ class Command(BaseCommand):
                 "vision_quote": "We aren't just building products; we are building an ecosystem of owning a home that is seamless, smart, and beautiful.",
                 "linkedin_url": "https://www.linkedin.com/in/jimit-shah-3861aa113/",
                 "twitter_url": "https://twitter.com/alevate_spaces",
-                "photo_filename": "jimit.png",
+                "photo_filename": "jimit.jpg",
                 "order": 1,
                 "expertise": ["Advanced Manufacturing", "Operational Scale", "D2C Ecosystems", "Supply Chain Innovation"]
             },
