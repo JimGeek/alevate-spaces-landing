@@ -74,13 +74,34 @@ export function GigaFactoryBackground() {
             </motion.div>
 
             {/* Floating Interactive Hotspots */}
-            {nodes.map((node) => (
+            {/* Floating Interactive Hotspots */}
+            {nodes.map((node, i) => (
                 <motion.div
                     key={node.id}
                     className="absolute z-10 pointer-events-auto cursor-pointer group"
                     initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.8, delay: 0.5 + node.delay }}
+                    animate={{
+                        opacity: 1,
+                        scale: 1,
+                        x: [0, 30, -20, 0],
+                        y: [0, -40, 20, 0]
+                    }}
+                    transition={{
+                        opacity: { duration: 0.8, delay: 0.5 + node.delay },
+                        scale: { duration: 0.8, delay: 0.5 + node.delay },
+                        x: {
+                            duration: 15 + (i * 2),
+                            repeat: Infinity,
+                            repeatType: "reverse",
+                            ease: "easeInOut"
+                        },
+                        y: {
+                            duration: 12 + (i * 3),
+                            repeat: Infinity,
+                            repeatType: "reverse",
+                            ease: "easeInOut"
+                        }
+                    }}
                     style={{
                         top: node.top,
                         left: node.left,
