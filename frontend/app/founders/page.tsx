@@ -145,9 +145,9 @@ export default async function FoundersPage() {
                                     />
                                     {/* Quote Overlay */}
                                     {founder.vision_quote && (
-                                        <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black/90 via-black/60 to-transparent backdrop-blur-[2px]">
+                                        <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black/90 via-black/60 to-transparent backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end">
                                             <Quote className="w-8 h-8 text-primary mb-4" />
-                                            <p className="text-lg md:text-xl text-white font-medium italic leading-relaxed">
+                                            <p className="text-lg md:text-xl text-white font-medium italic leading-relaxed translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                                                 "{founder.vision_quote}"
                                             </p>
                                         </div>
