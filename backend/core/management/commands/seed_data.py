@@ -107,7 +107,7 @@ class Command(BaseCommand):
                 "vision_quote": "Design is the silent ambassador of your brand. At Alevate, we ensure that ambassador speaks the language of elegance and utility.",
                 "linkedin_url": "https://www.linkedin.com/in/nupurshah-thh/",
                 "twitter_url": "",
-                "photo_filename": "nupur.png",
+                "photo_filename": "nupur.jpg",
                 "order": 2,
                 "expertise": ["Spatial Design", "Architectural Innovation", "Aesthetics", "Brand Identity"]
             }
