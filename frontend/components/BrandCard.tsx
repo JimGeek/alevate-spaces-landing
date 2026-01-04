@@ -2,14 +2,15 @@
 
 import { motion } from "framer-motion";
 import { Brand } from "@/types";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Calendar, Clock } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 const statusColors = {
-    ideation: "bg-blue-500/10 text-blue-500 border-blue-500/20",
-    manufacturing: "bg-yellow-500/10 text-yellow-500 border-yellow-500/20",
-    revenue: "bg-green-500/10 text-green-500 border-green-500/20",
+    ideation: "bg-blue-500/20 text-blue-300 border-blue-500/30",
+    manufacturing: "bg-yellow-500/20 text-yellow-300 border-yellow-500/30",
+    revenue: "bg-green-500/20 text-green-300 border-green-500/30",
 };
 
 const statusLabels = {
@@ -19,56 +20,98 @@ const statusLabels = {
 };
 
 export function BrandCard({ brand, index }: { brand: Brand; index: number }) {
-    return (
+    // Format launch date
+    const launchDate = brand.launch_date
+        ? new Date(brand.launch_date).toLocaleDateString("en-US", { month: "long", year: "numeric" })
+        : "Coming Soon";
+
+    const CardContent = (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="group relative h-[400px] w-full overflow-hidden rounded-2xl border border-border/50 bg-secondary/20 backdrop-blur-sm"
+            className="group flex flex-col h-full w-full overflow-hidden rounded-3xl border border-white/10 bg-zinc-900 shadow-2xl hover:shadow-primary/5 transition-shadow duration-300 cursor-pointer"
         >
-            {/* Background Image (Hero) */}
-            <div className="absolute inset-0 z-0">
-                <img
+            {/* Top Section: Hero Image */}
+            <div className="relative aspect-[4/3] w-full overflow-hidden bg-zinc-800">
+                <Image
                     src={brand.hero_image || "/placeholder-brand.jpg"}
                     alt={brand.name}
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
+                    fill
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    unoptimized
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-500" />
             </div>
 
-            {/* Content */}
-            <div className="absolute inset-0 z-10 flex flex-col justify-end p-8">
-                <div className="transform transition-transform duration-500 group-hover:-translate-y-4">
-                    <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center gap-4">
-                            {brand.logo ? (
-                                <img src={brand.logo} alt={`${brand.name} logo`} className="h-12 w-auto object-contain invert brightness-0 filter" />
-                            ) : null}
-                            <h3 className="text-3xl font-bold text-foreground tracking-tight">{brand.name}</h3>
+            {/* Bottom Section: Content */}
+            <div className="flex flex-1 flex-col px-6 pb-6 pt-0 relative">
+
+                {/* Overlapping Logo */}
+                <div className="-mt-12 mb-3 inline-block">
+                    {brand.logo ? (
+                        <div className="h-24 w-24 rounded-2xl bg-zinc-900 border-4 border-zinc-900 shadow-xl flex items-center justify-center overflow-hidden">
+                            <div className="h-full w-full bg-white p-2 flex items-center justify-center">
+                                <img
+                                    src={brand.logo}
+                                    alt={`${brand.name} logo`}
+                                    className="h-full w-full object-contain"
+                                />
+                            </div>
                         </div>
-                        {brand.website_url && (
-                            <Link
-                                href={brand.website_url}
-                                target="_blank"
-                                className="p-2 rounded-full bg-white/10 hover:bg-primary hover:text-white transition-colors"
-                            >
-                                <ArrowUpRight size={20} />
-                            </Link>
-                        )}
-                    </div>
+                    ) : (
+                        <div className="h-24 w-24 rounded-2xl bg-zinc-800 border-4 border-zinc-900"></div>
+                    )}
+                </div>
 
-                    <div className={cn(
-                        "inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border mb-4",
-                        statusColors[brand.status]
-                    )}>
-                        {statusLabels[brand.status]}
-                    </div>
+                {/* Header */}
+                <div className="mb-3">
+                    <div className="flex justify-between items-start gap-4 mb-1.5">
+                        <h3 className="text-2xl font-bold text-white tracking-tight group-hover:text-primary transition-colors">{brand.name}</h3>
 
-                    <p className="text-muted-foreground line-clamp-2 group-hover:line-clamp-none transition-all duration-300 mb-0 group-hover:mb-4 opacity-0 group-hover:opacity-100 h-0 group-hover:h-auto">
+                        {/* Status Badge */}
+                        <div className={cn(
+                            "shrink-0 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border",
+                            statusColors[brand.status]
+                        )}>
+                            {statusLabels[brand.status]}
+                        </div>
+                    </div>
+                    <p className="text-sm font-medium text-primary/90 line-clamp-2 leading-snug">{brand.one_liner}</p>
+                </div>
+
+                {/* Description */}
+                <div className="flex-1 mb-4">
+                    <p className="text-zinc-400 text-sm leading-relaxed line-clamp-5">
                         {brand.description}
                     </p>
+                </div>
+
+                {/* Footer / Meta */}
+                <div className="mt-auto flex items-center justify-between pt-4 border-t border-white/5">
+
+                    {/* Established Date */}
+                    <div className="flex items-center gap-2 text-zinc-500">
+                        <Clock size={14} />
+                        <span className="text-xs font-medium">Est. {launchDate}</span>
+                    </div>
+
+                    {/* Visit Button (Visual) */}
+                    <div className="flex items-center gap-1 text-xs font-semibold text-white group-hover:text-primary transition-colors">
+                        Visit Website <ArrowUpRight size={14} />
+                    </div>
                 </div>
             </div>
         </motion.div>
     );
+
+    if (brand.website_url) {
+        return (
+            <Link href={brand.website_url} target="_blank" className="block w-full h-full">
+                {CardContent}
+            </Link>
+        );
+    }
+
+    return <div className="block w-full h-full">{CardContent}</div>;
 }
