@@ -89,7 +89,7 @@ export function GigaFactoryBackground() {
             {nodes.map((node, i) => (
                 <motion.div
                     key={node.id}
-                    className="absolute z-10 pointer-events-auto cursor-pointer group"
+                    className="absolute z-10 pointer-events-auto cursor-pointer group hidden md:block"
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{
                         opacity: 1,
@@ -128,10 +128,10 @@ export function GigaFactoryBackground() {
 
                         {/* Glass Card Label */}
                         <div
-                            className="absolute top-6 left-1/2 -translate-x-1/2 mt-2 px-3 py-1.5 md:px-4 md:py-2 rounded-xl bg-black/50 backdrop-blur-md border border-white/10 shadow-xl flex items-center gap-2 md:gap-3 transition-all duration-300 group-hover:scale-110 group-hover:bg-black/70 group-hover:border-white/40 whitespace-nowrap"
+                            className="absolute top-6 left-1/2 -translate-x-1/2 mt-2 px-2 py-1.5 md:px-4 md:py-2 rounded-xl bg-black/30 md:bg-black/50 backdrop-blur-md border border-white/5 md:border-white/10 shadow-xl flex items-center gap-2 md:gap-3 transition-all duration-300 group-hover:scale-110 group-hover:bg-black/70 group-hover:border-white/40 whitespace-nowrap"
                         >
-                            <node.icon className="w-4 h-4 md:w-5 md:h-5 text-white/90" />
-                            <div>
+                            <node.icon className="w-3 h-3 md:w-5 md:h-5 text-white/90" />
+                            <div className="hidden md:block">
                                 <span className="block text-xs md:text-sm font-semibold text-white tracking-wide">{node.label}</span>
                             </div>
                         </div>

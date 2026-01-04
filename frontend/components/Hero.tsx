@@ -2,14 +2,27 @@
 
 import { motion } from "framer-motion";
 import { GigaFactoryBackground } from "@/components/GigaFactoryBackground";
+import {
+    Palette,
+    Ruler,
+    Key,
+    Hammer,
+    Zap,
+    Armchair,
+    Store,
+    Factory,
+    Bath,
+    Wrench,
+    DoorOpen
+} from "lucide-react";
 
 export function Hero() {
     return (
-        <section className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-background">
+        <section className="relative min-h-screen w-full flex items-center justify-center bg-background touch-auto">
             {/* Interactive Giga-Scale Background */}
             <GigaFactoryBackground />
 
-            <div className="relative z-10 container px-4 md:px-6 text-center pointer-events-none flex flex-col items-center justify-center h-full pt-20">
+            <div className="relative z-10 container px-4 md:px-6 text-center pointer-events-none flex flex-col items-center justify-center py-24 md:h-full md:py-0">
                 {/* Pointer events none on container to let background be interactive, but enable pointer events on text/buttons */}
                 <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
@@ -70,6 +83,33 @@ export function Hero() {
                         Explore Our Brands
                         <svg className="w-5 h-5 ml-2 transition-transform duration-200 transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                     </a>
+                </motion.div>
+
+                {/* Mobile-Only Service List */}
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.8 }}
+                    className="mt-10 w-full max-w-sm grid grid-cols-2 gap-4 md:hidden text-left pointer-events-auto"
+                >
+                    {[
+                        { label: "Home Construction", icon: Hammer, color: "text-red-500" },
+                        { label: "Home Purchase", icon: Key, color: "text-blue-500" },
+                        { label: "Interior Design", icon: Palette, color: "text-pink-500" },
+                        { label: "Interior Fit-out", icon: Ruler, color: "text-amber-500" },
+                        { label: "Home Automation", icon: Zap, color: "text-yellow-500" },
+                        { label: "Home Furnishing", icon: Armchair, color: "text-violet-500" },
+                        { label: "Interior Super Store", icon: Store, color: "text-emerald-500" },
+                        { label: "Industrial Shed", icon: Factory, color: "text-slate-500" },
+                        { label: "Bathroom Renovation", icon: Bath, color: "text-cyan-500" },
+                        { label: "Metal Works", icon: Wrench, color: "text-stone-500" },
+                        { label: "Windows & Doors", icon: DoorOpen, color: "text-orange-500" },
+                    ].map((item, i) => (
+                        <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 backdrop-blur-sm">
+                            <item.icon className={`w-5 h-5 ${item.color}`} />
+                            <span className="text-xs font-medium text-white/90">{item.label}</span>
+                        </div>
+                    ))}
                 </motion.div>
             </div>
         </section>
