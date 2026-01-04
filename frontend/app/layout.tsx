@@ -17,7 +17,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={cn(outfit.variable, "font-sans antialiased bg-background text-foreground selection:bg-primary selection:text-primary-foreground")}>
+      <body
+        className={cn(outfit.variable, "font-sans antialiased bg-background text-foreground selection:bg-primary selection:text-primary-foreground")}
+        suppressHydrationWarning
+      >
         {children}
       </body>
     </html>

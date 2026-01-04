@@ -74,6 +74,7 @@ class Command(BaseCommand):
 
         for data in brands_data:
             logo_filename = data.pop('logo_filename', None)
+            hero_image_filename = data.pop('hero_image_filename', 'placeholder-brand.jpg')
             brand = Brand.objects.create(**data)
             
             if logo_filename:
@@ -84,6 +85,17 @@ class Command(BaseCommand):
                         self.stdout.write(f"Attached logo for {brand.name}")
                 else:
                     self.stdout.write(self.style.WARNING(f"Logo file not found: {file_path}"))
+
+            if hero_image_filename:
+                # Hero images might be in public root or images/ folder
+                # We placed placeholder-brand.jpg in public root
+                hero_path = os.path.join(settings.BASE_DIR, '../frontend/public', hero_image_filename)
+                if os.path.exists(hero_path):
+                    with open(hero_path, 'rb') as f:
+                        brand.hero_image.save(hero_image_filename, File(f), save=True)
+                        self.stdout.write(f"Attached hero image for {brand.name}")
+                else:
+                    self.stdout.write(self.style.WARNING(f"Hero image file not found: {hero_path}"))
             
             self.stdout.write(f"Created brand: {brand.name}")
 

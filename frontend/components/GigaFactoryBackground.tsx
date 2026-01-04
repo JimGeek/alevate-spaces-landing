@@ -13,36 +13,47 @@ import {
     Wrench,
     DoorOpen
 } from "lucide-react";
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
+import { useEffect } from "react";
+import Image from "next/image";
 
 export function GigaFactoryBackground() {
-    const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+    // Optimization: Use MotionValues instead of State to avoid re-renders on every mouse move
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+
+    // Smooth spring physics for butter-smooth movement
+    const smoothX = useSpring(mouseX, { stiffness: 50, damping: 20 });
+    const smoothY = useSpring(mouseY, { stiffness: 50, damping: 20 });
+
+    // Map mouse position to parallax offset
+    // assuming default window center is roughly 0,0 relative to movement logic, 
+    // or we can just map simple offset. 
+    // Let's us map: [0, windowWidth] -> [-offset, offset]
+    // Since we don't have window width in motion value easily without state, we can just use pixel offset from center.
+    // However, to keep it simple and robust without hydration mismatch:
+    // We will just update raw mouse values and transform them.
+
+    // Transformation: (MousePos - Center) * 0.02
+    // We can just apply the small factor directly to the raw mouse delta from center.
+    // But we need center. 
+    // Optimization: Just map directly since we don't strictly need "center" to be 0, just relative movement. 
+    // Actually, center is important for the "rest" position. 
+    // Let's stick to a simpler logic: Move inversely to mouse position.
+
+    const x = useTransform(smoothX, (value) => (value - (typeof window !== 'undefined' ? window.innerWidth : 1000) / 2) * -0.02);
+    const y = useTransform(smoothY, (value) => (value - (typeof window !== 'undefined' ? window.innerHeight : 800) / 2) * -0.02);
 
     useEffect(() => {
-        setDimensions({ width: window.innerWidth, height: window.innerHeight });
-        const handleResize = () => setDimensions({ width: window.innerWidth, height: window.innerHeight });
-
         const handleMouseMove = (e: MouseEvent) => {
-            setMousePos({ x: e.clientX, y: e.clientY });
+            mouseX.set(e.clientX);
+            mouseY.set(e.clientY);
         };
 
-        window.addEventListener("resize", handleResize);
         window.addEventListener("mousemove", handleMouseMove);
-        return () => {
-            window.removeEventListener("resize", handleResize);
-            window.removeEventListener("mousemove", handleMouseMove);
-        }
-    }, []);
+        return () => window.removeEventListener("mousemove", handleMouseMove);
+    }, [mouseX, mouseY]);
 
-    if (dimensions.width === 0) return null;
-
-    // Parallax calculation
-    const moveX = (mousePos.x - dimensions.width / 2) * 0.02;
-    const moveY = (mousePos.y - dimensions.height / 2) * 0.02;
-
-    // Nodes positioning - Distributed around the periphery to avoid center text
     const nodes = [
         { id: "construction", label: "Home Construction", icon: Hammer, top: "20%", left: "15%", color: "#ef4444", delay: 0 },
         { id: "purchase", label: "Home Purchase", icon: Key, top: "20%", left: "85%", color: "#3b82f6", delay: 0.1 },
@@ -64,18 +75,19 @@ export function GigaFactoryBackground() {
         <div className="absolute inset-0 z-0 overflow-hidden bg-[#0f172a] pointer-events-none">
             {/* Background Image with Parallax */}
             <motion.div
-                className="absolute inset-[-5%]" // Make slightly larger to allow movement
-                animate={{
-                    x: -moveX,
-                    y: -moveY
-                }}
-                transition={{ type: "tween", ease: "linear", duration: 0.2 }}
+                className="absolute inset-[-5%] w-[110%] h-[110%]" // Make slightly larger to allow movement
+                style={{ x, y }}
             >
-                <img
-                    src="/images/gigafactory-isometric.png"
-                    alt="GigaFactory Ecosystem"
-                    className="w-full h-full object-cover opacity-80" // Increased opacity
-                />
+                <div className="relative w-full h-full">
+                    <Image
+                        src="/images/gigafactory-isometric.png"
+                        alt="GigaFactory Ecosystem"
+                        fill
+                        priority
+                        className="object-cover opacity-80"
+                        quality={90}
+                    />
+                </div>
                 {/* Lighter overlay for text readability but easier to see image */}
                 <div className="absolute inset-0 bg-background/40" />
 
@@ -84,7 +96,6 @@ export function GigaFactoryBackground() {
                 <div className="absolute inset-0 bg-gradient-to-r from-background via-transparent to-background" />
             </motion.div>
 
-            {/* Floating Interactive Hotspots */}
             {/* Floating Interactive Hotspots */}
             {nodes.map((node, i) => (
                 <motion.div
@@ -116,7 +127,9 @@ export function GigaFactoryBackground() {
                     style={{
                         top: node.top,
                         left: node.left,
-                        transform: 'translate(-50%, -50%)' // Center the node point
+                        transform: 'translate(-50%, -50%)', // Center the node point
+                        // Optimization: Promote to compositor layer
+                        willChange: "transform"
                     }}
                 >
                     <div className="relative flex flex-col items-center">

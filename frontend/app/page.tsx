@@ -4,14 +4,14 @@ import { BrandCard } from "@/components/BrandCard";
 import { Footer } from "@/components/Footer";
 import { Brand } from "@/types";
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 async function getBrands(): Promise<Brand[]> {
   // In a real scenario, this would fetch from the Django API.
   // For now, we'll try to fetch, and if it fails (e.g., during build if backend isn't running), return mock data or empty.
   try {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
-    const res = await fetch(`${apiUrl}/api/brands/`, { cache: "no-store" });
+    const res = await fetch(`${apiUrl}/api/brands/`);
     if (!res.ok) throw new Error("Failed to fetch brands");
     return res.json();
   } catch (error) {

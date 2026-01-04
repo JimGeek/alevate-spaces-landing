@@ -3,6 +3,7 @@ import { Footer } from "@/components/Footer";
 import { Founder } from "@/types";
 import { Quote, Linkedin, Twitter, ArrowRight, Hammer, Lightbulb, Users } from "lucide-react";
 import Image from "next/image";
+import { getImageUrl } from "@/lib/utils";
 
 export const dynamic = 'force-dynamic';
 
@@ -127,7 +128,7 @@ export default async function FoundersPage() {
                                     <div className="absolute inset-0 z-0">
                                         <div className="absolute inset-0 bg-zinc-900" /> {/* Fallback bg */}
                                         <Image
-                                            src={founder.photo}
+                                            src={getImageUrl(founder.photo)}
                                             alt={founder.name}
                                             fill
                                             className="object-cover transition-transform duration-700 group-hover:scale-105"

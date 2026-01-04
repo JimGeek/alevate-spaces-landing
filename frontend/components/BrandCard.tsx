@@ -5,7 +5,7 @@ import { Brand } from "@/types";
 import { ArrowUpRight, Calendar, Clock } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
+import { cn, getImageUrl } from "@/lib/utils";
 
 const statusColors = {
     ideation: "bg-blue-500/20 text-blue-300 border-blue-500/30",
@@ -35,12 +35,11 @@ export function BrandCard({ brand, index }: { brand: Brand; index: number }) {
             {/* Top Section: Hero Image */}
             <div className="relative aspect-[4/3] w-full overflow-hidden bg-zinc-800">
                 <Image
-                    src={brand.hero_image || "/placeholder-brand.jpg"}
+                    src={getImageUrl(brand.hero_image) || "/placeholder-brand.jpg"}
                     alt={brand.name}
                     fill
                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    unoptimized
                 />
             </div>
 
@@ -51,11 +50,12 @@ export function BrandCard({ brand, index }: { brand: Brand; index: number }) {
                 <div className="-mt-12 mb-3 inline-block">
                     {brand.logo ? (
                         <div className="h-24 w-24 rounded-2xl bg-zinc-900 border-4 border-zinc-900 shadow-xl flex items-center justify-center overflow-hidden">
-                            <div className="h-full w-full bg-white p-2 flex items-center justify-center">
-                                <img
-                                    src={brand.logo}
+                            <div className="h-full w-full bg-white p-2 flex items-center justify-center relative">
+                                <Image
+                                    src={getImageUrl(brand.logo)}
                                     alt={`${brand.name} logo`}
-                                    className="h-full w-full object-contain"
+                                    fill
+                                    className="object-contain p-2"
                                 />
                             </div>
                         </div>
