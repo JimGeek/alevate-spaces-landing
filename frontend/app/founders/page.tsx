@@ -2,6 +2,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Founder } from "@/types";
 import { Quote, Linkedin, Twitter, ArrowRight, Hammer, Lightbulb, Users } from "lucide-react";
+import Image from "next/image";
 
 export const dynamic = 'force-dynamic';
 
@@ -49,27 +50,12 @@ async function getFounders(): Promise<Founder[]> {
     }
 }
 
-const TeamMember = ({ name, role, image }: { name: string, role: string, image: string }) => (
-    <div className="group relative overflow-hidden rounded-xl bg-secondary/5 border border-white/5 hover:border-primary/30 transition-all duration-300">
-        <div className="aspect-square overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-500">
-            <img src={image} alt={name} className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" />
-        </div>
-        <div className="p-4 bg-background/80 backdrop-blur-sm absolute bottom-0 left-0 right-0 border-t border-white/5 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-            <h3 className="font-bold text-foreground">{name}</h3>
-            <p className="text-xs text-primary uppercase tracking-wider">{role}</p>
-        </div>
-    </div>
-);
+
 
 export default async function FoundersPage() {
     const founders = await getFounders();
 
-    const teamMembers = [
-        { name: "David Kim", role: "Head of Manufacturing", image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=1974&auto=format&fit=crop" },
-        { name: "Elena Rodriguez", role: "Lead Interior Designer", image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=1961&auto=format&fit=crop" },
-        { name: "Marcus Johnson", role: "Supply Chain Director", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop" },
-        { name: "Priya Patel", role: "Head of Customer Success", image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=1974&auto=format&fit=crop" },
-    ];
+
 
     return (
         <main className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-primary-foreground">
@@ -138,11 +124,17 @@ export default async function FoundersPage() {
                             {/* Visual Side */}
                             <div className="w-full lg:w-5/12 relative">
                                 <div className="aspect-[4/5] rounded-tl-[4rem] rounded-br-[4rem] overflow-hidden relative group shadow-2xl shadow-black/50 border border-white/10">
-                                    <img
-                                        src={founder.photo}
-                                        alt={founder.name}
-                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                    />
+                                    <div className="absolute inset-0 z-0">
+                                        <div className="absolute inset-0 bg-zinc-900" /> {/* Fallback bg */}
+                                        <Image
+                                            src={founder.photo}
+                                            alt={founder.name}
+                                            fill
+                                            className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                            sizes="(max-width: 768px) 100vw, 50vw"
+                                            unoptimized
+                                        />
+                                    </div>
                                     {/* Quote Overlay */}
                                     {founder.vision_quote && (
                                         <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black/90 via-black/60 to-transparent backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end">
@@ -170,11 +162,7 @@ export default async function FoundersPage() {
                                                 <Linkedin size={20} />
                                             </a>
                                         )}
-                                        {founder.twitter_url && (
-                                            <a href={founder.twitter_url} className="p-3 rounded-full bg-white/5 hover:bg-white/10 text-foreground hover:text-primary transition-all border border-white/5">
-                                                <Twitter size={20} />
-                                            </a>
-                                        )}
+
                                     </div>
                                 </div>
 
@@ -195,9 +183,7 @@ export default async function FoundersPage() {
                                     </div>
                                 </div>
 
-                                <div className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary/80 cursor-pointer transition-colors group">
-                                    Read Full Bio <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                                </div>
+
                             </div>
                         </div>
                     ))}
@@ -205,26 +191,35 @@ export default async function FoundersPage() {
             </section>
 
             {/* 4. Team Section (The Builders) */}
-            <section className="py-24 bg-gradient-to-b from-[#050505] to-background border-t border-white/5">
-                <div className="container mx-auto px-6">
-                    <div className="text-center mb-16">
-                        <h2 className="text-4xl font-bold mb-4">The Builders</h2>
-                        <p className="text-muted-foreground max-w-2xl mx-auto">
-                            Behind every great innovation is a team of relentless executors. Meet the leaders driving our operations, design, and technology.
+            {/* 4. Team Section (The Builders) */}
+            <section className="py-32 bg-gradient-to-b from-[#050505] to-background border-t border-white/5">
+                <div className="container mx-auto px-6 text-center">
+                    <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white to-white/60">The Builders</h2>
+                    <div className="max-w-3xl mx-auto space-y-8">
+                        <p className="text-xl md:text-2xl text-muted-foreground font-light leading-relaxed">
+                            We are currently building our core team of visionaries and executors.
                         </p>
-                    </div>
 
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8">
-                        {teamMembers.map((member, i) => (
-                            <TeamMember key={i} {...member} />
-                        ))}
-                    </div>
+                        <div className="py-8">
+                            <h3 className="text-3xl md:text-4xl font-bold text-white mb-2">Come Join The Revolution</h3>
+                            <p className="text-primary/80 font-medium tracking-wide uppercase text-sm">Be part of the future of living</p>
+                        </div>
 
-                    <div className="mt-16 text-center">
-                        <button className="px-8 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-foreground font-medium transition-all duration-300">
-                            Simulate Alevate Spaces Team
-                        </button>
-                        <p className="mt-4 text-xs text-muted-foreground">and 50+ engineers & designers</p>
+                        <div className="flex flex-col items-center gap-6">
+                            <a
+                                href="mailto:career@alevate.space"
+                                className="group relative inline-flex items-center gap-3 px-10 py-5 rounded-full bg-white text-black font-bold text-lg hover:bg-primary hover:scale-105 transition-all duration-300 shadow-2xl shadow-white/10 overflow-hidden"
+                            >
+                                <span className="relative z-10 flex items-center gap-2">
+                                    Apply Now <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                </span>
+                                <div className="absolute inset-0 bg-primary translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                            </a>
+
+                            <p className="text-sm text-zinc-500">
+                                or email us at <a href="mailto:career@alevate.space" className="text-white hover:text-primary transition-colors border-b border-white/20 pb-0.5">career@alevate.space</a>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </section>

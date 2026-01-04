@@ -7,7 +7,11 @@ import {
     Hammer,
     Zap,
     Armchair,
-    Store
+    Store,
+    Factory,
+    Bath,
+    Wrench,
+    DoorOpen
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -46,7 +50,14 @@ export function GigaFactoryBackground() {
         { id: "fitout", label: "Interior Fit-out", icon: Ruler, top: "50%", left: "90%", color: "#f59e0b", delay: 0.3 },
         { id: "automation", label: "Home Automation", icon: Zap, top: "80%", left: "20%", color: "#eab308", delay: 0.4 },
         { id: "furnishing", label: "Home Furnishing", icon: Armchair, top: "80%", left: "80%", color: "#8b5cf6", delay: 0.5 },
-        { id: "superstore", label: "Interior Super Store", icon: Store, top: "90%", left: "50%", color: "#10b981", delay: 0.6 },
+        // Moved Super Store to top center to avoid collision with "Explore Our Brands" button
+        { id: "superstore", label: "Interior Super Store", icon: Store, top: "12%", left: "32%", color: "#10b981", delay: 0.6 },
+
+        // New Nodes
+        { id: "shed", label: "Industrial Shed", icon: Factory, top: "35%", left: "25%", color: "#64748b", delay: 0.7 },
+        { id: "bathroom", label: "Bathroom Renovation", icon: Bath, top: "68%", left: "18%", color: "#06b6d4", delay: 0.8 },
+        { id: "metal", label: "Metal Works", icon: Wrench, top: "35%", left: "75%", color: "#78716c", delay: 0.9 },
+        { id: "windows", label: "Windows & Doors", icon: DoorOpen, top: "68%", left: "82%", color: "#f97316", delay: 1.0 },
     ];
 
     return (
