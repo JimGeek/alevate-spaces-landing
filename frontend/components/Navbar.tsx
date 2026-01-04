@@ -20,10 +20,13 @@ export function Navbar() {
     }, []);
 
     const navLinks = [
-        { name: "Brands", href: "#brands" },
-        { name: "Founders", href: "#founders" },
-        { name: "Contact", href: "#contact" },
+        { name: "Brands", href: "/#brands" },
+        { name: "Founders", href: "/founders" },
     ];
+
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
 
     return (
         <>
@@ -34,7 +37,11 @@ export function Navbar() {
                 )}
             >
                 <div className="container mx-auto px-6 flex items-center justify-between">
-                    <Link href="/" className="text-2xl font-bold tracking-tighter text-foreground flex items-baseline">
+                    <Link
+                        href="/"
+                        onClick={scrollToTop}
+                        className="text-2xl font-bold tracking-tighter text-foreground flex items-baseline"
+                    >
                         ALEVATE<span className="w-2 h-2 rounded-full bg-primary mx-1 inline-block"></span>SPACES
                     </Link>
 
@@ -42,7 +49,6 @@ export function Navbar() {
                     <div className="hidden md:flex items-center space-x-8">
                         <Link href="/#brands" className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors">Brands</Link>
                         <Link href="/founders" className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors">Founders</Link>
-                        <Link href="/#contact" className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors">Contact</Link>
                         <button
                             onClick={() => setIsContactModalOpen(true)}
                             className="px-5 py-2 text-sm font-semibold bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
