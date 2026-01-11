@@ -10,17 +10,13 @@ export const dynamic = 'force-dynamic';
 async function getFounders(): Promise<Founder[]> {
     try {
         const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
-        const res = await fetch(`${apiUrl}/api/founders/`, { cache: "no-store" });
+        const brandSlug = process.env.NEXT_PUBLIC_BRAND_SLUG || "alevate-spaces";
+        const res = await fetch(`${apiUrl}/api/v1/brands/${brandSlug}/`, { cache: "no-store" });
         if (!res.ok) throw new Error("Failed to fetch founders");
-        const data = await res.json();
-
-        // Enrich with mock expertise for demo purposes (since backend doesn't have it yet)
-        return data.map((f: Founder) => ({
-            ...f,
-            expertise: f.id === 1
-                ? ["Strategic Vision", "Product Innovation", "Ecosystem Design"]
-                : ["Operational Excellence", "Supply Chain", "Manufacturing"]
-        }));
+        const response = await res.json();
+        // Handle wrapped response (e.g. { success: true, data: { ... } })
+        const brandData = response.data || response;
+        return brandData.founders || [];
     } catch (error) {
         console.warn("Using mock founders data", error);
         return [

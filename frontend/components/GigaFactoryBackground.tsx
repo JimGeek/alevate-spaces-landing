@@ -14,7 +14,7 @@ import {
     DoorOpen
 } from "lucide-react";
 import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 
 export function GigaFactoryBackground() {
@@ -41,8 +41,24 @@ export function GigaFactoryBackground() {
     // Actually, center is important for the "rest" position. 
     // Let's stick to a simpler logic: Move inversely to mouse position.
 
-    const x = useTransform(smoothX, (value) => (value - (typeof window !== 'undefined' ? window.innerWidth : 1000) / 2) * -0.02);
-    const y = useTransform(smoothY, (value) => (value - (typeof window !== 'undefined' ? window.innerHeight : 800) / 2) * -0.02);
+    // Use state for window dimensions to prevent hydration mismatch
+    const [dimensions, setDimensions] = useState({ width: 1000, height: 800 });
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            setDimensions({ width: window.innerWidth, height: window.innerHeight });
+
+            const handleResize = () => {
+                setDimensions({ width: window.innerWidth, height: window.innerHeight });
+            };
+
+            window.addEventListener('resize', handleResize);
+            return () => window.removeEventListener('resize', handleResize);
+        }
+    }, []);
+
+    const x = useTransform(smoothX, (value) => (value - dimensions.width / 2) * -0.02);
+    const y = useTransform(smoothY, (value) => (value - dimensions.height / 2) * -0.02);
 
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {

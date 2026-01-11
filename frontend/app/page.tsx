@@ -11,9 +11,10 @@ async function getBrands(): Promise<Brand[]> {
   // For now, we'll try to fetch, and if it fails (e.g., during build if backend isn't running), return mock data or empty.
   try {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
-    const res = await fetch(`${apiUrl}/api/brands/`);
+    const res = await fetch(`${apiUrl}/api/v1/brands/`);
     if (!res.ok) throw new Error("Failed to fetch brands");
-    return res.json();
+    const data = await res.json();
+    return Array.isArray(data) ? data : (data.results || []);
   } catch (error) {
     console.warn("Using mock brands data", error);
     return [];

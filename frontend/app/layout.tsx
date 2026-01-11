@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { ChatWidget } from "@/components/ChatWidget";
 
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
 
@@ -22,6 +23,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         {children}
+        <ChatWidget />
       </body>
     </html>
   );
