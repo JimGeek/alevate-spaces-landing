@@ -25,7 +25,7 @@ export function ChatWidget() {
     const scrollRef = useRef<HTMLDivElement>(null);
 
     // Using defaults if env vars are missing to prevent crash
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     const brandSlug = process.env.NEXT_PUBLIC_BRAND_SLUG || "alevate-spaces";
 
     useEffect(() => {
