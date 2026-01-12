@@ -11,12 +11,18 @@ async function getBrands(): Promise<Brand[]> {
   // For now, we'll try to fetch, and if it fails (e.g., during build if backend isn't running), return mock data or empty.
   try {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
-    const res = await fetch(`${apiUrl}/api/v1/brands/public/brands/`);
+    const res = await fetch(`${apiUrl}/api/v1/brands/public/brands/`, { cache: 'no-store' });
     if (!res.ok) throw new Error(`Failed to fetch brands: ${res.status}`);
-    const data = await res.json();
-    return Array.isArray(data) ? data : (data.results || []);
+    const json = await res.json();
+
+    // Handle EnvelopeJSONRenderer ( { success: true, data: [...] } )
+    const payload = json.data !== undefined ? json.data : json;
+    const brands = Array.isArray(payload) ? payload : (payload.results || []);
+
+    console.log(`[Alevate] Fetched ${brands.length} brands from ${apiUrl}`);
+    return brands;
   } catch (error) {
-    console.warn("Using mock brands data", error);
+    console.warn("Using mock brands data. Error:", error);
     return [];
   }
 }
