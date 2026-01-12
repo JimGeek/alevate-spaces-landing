@@ -1,6 +1,6 @@
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
-import { BrandCard } from "@/components/BrandCard";
+import { BrandShowcase } from "@/components/BrandShowcase";
 import { Footer } from "@/components/Footer";
 import { Brand } from "@/types";
 
@@ -36,18 +36,7 @@ export default async function Home() {
       <Hero />
 
       {/* Brands Section */}
-      <section id="brands" className="py-24 container mx-auto px-6">
-        <div className="mb-16">
-          <h2 className="text-4xl font-bold mb-4">Our Portfolio</h2>
-          <div className="h-1 w-24 bg-primary rounded-full" />
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {brands.map((brand, index) => (
-            <BrandCard key={brand.id} brand={brand} index={index} />
-          ))}
-        </div>
-      </section>
+      <BrandShowcase brands={brands} />
 
       {/* Footer */}
       <Footer />
