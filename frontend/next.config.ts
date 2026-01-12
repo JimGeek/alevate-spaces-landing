@@ -17,6 +17,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "api.alevate.space",
       },
+      {
+        protocol: "https",
+        hostname: "api.superhomes.app",
+      },
     ],
   },
 };
