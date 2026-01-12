@@ -36,7 +36,7 @@ export default async function Home() {
       <Hero />
 
       {/* Brands Section */}
-      <section id="brands" className="py-24 container px-6">
+      <section id="brands" className="py-24 container mx-auto px-6">
         <div className="mb-16">
           <h2 className="text-4xl font-bold mb-4">Our Portfolio</h2>
           <div className="h-1 w-24 bg-primary rounded-full" />
