@@ -103,9 +103,9 @@ export function BrandCard({ brand, index }: { brand: Brand; index: number }) {
         </motion.div>
     );
 
-    if (brand.website_url) {
+    if (brand.domain) {
         return (
-            <Link href={brand.website_url} target="_blank" className="block w-full h-full">
+            <Link href={brand.domain} target="_blank" className="block w-full h-full">
                 {CardContent}
             </Link>
         );

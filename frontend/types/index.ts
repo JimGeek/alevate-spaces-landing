@@ -7,7 +7,7 @@ export interface Brand {
     description: string;
     launch_date?: string; // string because it comes as date string from JSON
     status: 'ideation' | 'manufacturing' | 'revenue';
-    website_url?: string;
+    domain?: string;
     order: number;
 }
 
