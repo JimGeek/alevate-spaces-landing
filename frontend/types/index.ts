@@ -1,3 +1,10 @@
+export interface BrandStage {
+    id: number;
+    name: string;
+    color: string;
+    order: number;
+}
+
 export interface Brand {
     id: number;
     name: string;
@@ -6,7 +13,7 @@ export interface Brand {
     one_liner: string;
     description: string;
     launch_date?: string; // string because it comes as date string from JSON
-    status: 'ideation' | 'manufacturing' | 'revenue';
+    stage?: BrandStage | null;
     domain?: string;
     order: number;
 }
