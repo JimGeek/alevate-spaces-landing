@@ -1,58 +1,38 @@
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Founder } from "@/types";
-import { Quote, Linkedin, Twitter, ArrowRight, Hammer, Lightbulb, Users } from "lucide-react";
+import { Quote, Linkedin, ArrowRight, Hammer, Lightbulb, Users } from "lucide-react";
 import Image from "next/image";
-import { getImageUrl } from "@/lib/utils";
 
 export const dynamic = 'force-dynamic';
 
-async function getFounders(): Promise<Founder[]> {
-    try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
-        const brandSlug = process.env.NEXT_PUBLIC_BRAND_SLUG || "alevate-spaces";
-        const res = await fetch(`${apiUrl}/api/v1/brands/${brandSlug}/`, { cache: "no-store" });
-        if (!res.ok) throw new Error("Failed to fetch founders");
-        const response = await res.json();
-        // Handle wrapped response (e.g. { success: true, data: { ... } })
-        const brandData = response.data || response;
-        return brandData.founders || [];
-    } catch (error) {
-        console.warn("Using mock founders data", error);
-        return [
-            {
-                id: 1,
-                name: "Alex V.",
-                role: "CEO & Visionary",
-                photo: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1974&auto=format&fit=crop",
-                bio: "Serial entrepreneur with a passion for disrupting traditional industries. Leading the vision of Alevate Spaces to revolutionize how people build and live.",
-                vision_quote: "We are crafting the future of living, one space at a time.",
-                linkedin_url: "#",
-                twitter_url: "#",
-                order: 1,
-                expertise: ["Strategic Vision", "Product Innovation", "Ecosystem Design"]
-            },
-            {
-                id: 2,
-                name: "Sarah Chen",
-                role: "CTO & Architect",
-                photo: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1976&auto=format&fit=crop",
-                bio: "Tech leader focusing on integrating smart construction technologies with sustainable design principles.",
-                vision_quote: "Technology should be invisible but impactful in every home we build.",
-                linkedin_url: "#",
-                order: 2,
-                expertise: ["Smart Tech", "Sustainable Architecture", "R&D"]
-            }
-        ];
-    }
-}
-
-
+const FOUNDERS: Founder[] = [
+    {
+        id: 1,
+        name: "Jimit Shah",
+        role: "Founder & Chief of Manufacturing",
+        photo: "/founders/Jimit-Profile.png",
+        bio: "Building the 'Giga Factory' of the future, Jimit is the visionary force behind Alevate's operational scale. With a deep background in advanced manufacturing and D2C brand aggregation, he is restructuring the construction and interior industry by creating a vertically integrated ecosystem that delivers speed, quality, and innovation.",
+        vision_quote: "We aren't just building products; we are building an ecosystem of owning a home that is seamless, smart, and beautiful.",
+        linkedin_url: "https://www.linkedin.com/in/jimit-shah-3861aa113/",
+        expertise: ["Advanced Manufacturing", "D2C Brand Aggregation", "Vertical Integration", "Ecosystem Design"],
+        order: 1,
+    },
+    {
+        id: 2,
+        name: "Nupur Shah",
+        role: "Co-Founder & Head of Design",
+        photo: "/founders/nupur-profile.png",
+        bio: "An architect with a philosophy rooted in the harmony of space and form. Nupur brings a rich portfolio of award-winning spatial design to Alevate. She leads the design language of our brands, ensuring that every product — from furniture to lighting — adheres to a standard of aesthetic purity and functional elegance.",
+        vision_quote: "Design is the silent ambassador of your brand. At Alevate, we ensure that ambassador speaks the language of elegance and utility.",
+        linkedin_url: "https://www.linkedin.com/in/nupurshah-thh/",
+        expertise: ["Spatial Architecture", "Interior Design", "Brand Aesthetics", "Material Curation"],
+        order: 2,
+    },
+];
 
 export default async function FoundersPage() {
-    const founders = await getFounders();
-
-
+    const founders = FOUNDERS;
 
     return (
         <main className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-primary-foreground">
@@ -60,11 +40,10 @@ export default async function FoundersPage() {
 
             {/* 1. Vision Hero Section */}
             <section className="relative pt-40 pb-24 px-6 overflow-hidden flex flex-col items-center text-center">
-                {/* Abstract Dynamic Background */}
                 <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 bg-[#050505]">
                     <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/20 rounded-full blur-[120px] animate-pulse" />
                     <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-600/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }} />
-                    <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20 pointer-events-none" /> {/* Optional noise texture if available, else ignored */}
+                    <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20 pointer-events-none" />
                 </div>
 
                 <div className="container mx-auto">
@@ -122,19 +101,18 @@ export default async function FoundersPage() {
                             <div className="w-full lg:w-5/12 relative">
                                 <div className="aspect-[4/5] rounded-tl-[4rem] rounded-br-[4rem] overflow-hidden relative group shadow-2xl shadow-black/50 border border-white/10">
                                     <div className="absolute inset-0 z-0">
-                                        <div className="absolute inset-0 bg-zinc-900" /> {/* Fallback bg */}
+                                        <div className="absolute inset-0 bg-zinc-900" />
                                         <Image
-                                            src={getImageUrl(founder.photo)}
+                                            src={founder.photo}
                                             alt={founder.name}
                                             fill
-                                            className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                            className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
                                             sizes="(max-width: 768px) 100vw, 50vw"
-                                            unoptimized
                                         />
                                     </div>
                                     {/* Quote Overlay */}
                                     {founder.vision_quote && (
-                                        <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black/90 via-black/60 to-transparent backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end">
+                                        <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black/90 via-black/60 to-transparent backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end z-10">
                                             <Quote className="w-8 h-8 text-primary mb-4" />
                                             <p className="text-lg md:text-xl text-white font-medium italic leading-relaxed translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                                                 "{founder.vision_quote}"
@@ -142,7 +120,7 @@ export default async function FoundersPage() {
                                         </div>
                                     )}
                                 </div>
-                                {/* Decorative elements */}
+                                {/* Decorative corner */}
                                 <div className={`absolute -z-10 top-[-20px] ${index % 2 === 0 ? 'left-[-20px]' : 'right-[-20px]'} w-24 h-24 border-t-2 border-l-2 border-primary/30 rounded-tl-3xl`} />
                             </div>
 
@@ -155,11 +133,10 @@ export default async function FoundersPage() {
                                     </div>
                                     <div className="flex gap-4">
                                         {founder.linkedin_url && (
-                                            <a href={founder.linkedin_url} className="p-3 rounded-full bg-white/5 hover:bg-white/10 text-foreground hover:text-primary transition-all border border-white/5">
+                                            <a href={founder.linkedin_url} target="_blank" rel="noreferrer" className="p-3 rounded-full bg-white/5 hover:bg-white/10 text-foreground hover:text-primary transition-all border border-white/5">
                                                 <Linkedin size={20} />
                                             </a>
                                         )}
-
                                     </div>
                                 </div>
 
@@ -179,16 +156,13 @@ export default async function FoundersPage() {
                                         </ul>
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
                     ))}
                 </div>
             </section>
 
-            {/* 4. Team Section (The Builders) */}
-            {/* 4. Team Section (The Builders) */}
+            {/* 4. Join Us Section */}
             <section className="py-32 bg-gradient-to-b from-[#050505] to-background border-t border-white/5">
                 <div className="container mx-auto px-6 text-center">
                     <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white to-white/60">The Builders</h2>
@@ -221,7 +195,6 @@ export default async function FoundersPage() {
                 </div>
             </section>
 
-            {/* Footer */}
             <Footer />
         </main>
     );
