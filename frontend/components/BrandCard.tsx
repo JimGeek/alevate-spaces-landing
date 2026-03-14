@@ -89,10 +89,14 @@ export function BrandCard({ brand, index }: { brand: Brand; index: number }) {
                 <div className="mt-auto flex items-center justify-between pt-4 border-t border-white/5">
 
                     {/* Established Date */}
-                    <div className="flex items-center gap-2 text-zinc-500">
-                        <Clock size={14} />
-                        <span className="text-xs font-medium">Est. {launchDate}</span>
-                    </div>
+                    {brand.launch_date ? (
+                        <div className="flex items-center gap-2 text-zinc-500">
+                            <Clock size={14} />
+                            <span className="text-xs font-medium">Est. {launchDate}</span>
+                        </div>
+                    ) : (
+                        <div />
+                    )}
 
                     {/* Visit Button (Visual) */}
                     <div className="flex items-center gap-1 text-xs font-semibold text-white group-hover:text-primary transition-colors">
