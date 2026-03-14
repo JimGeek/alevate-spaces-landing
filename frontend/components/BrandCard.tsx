@@ -33,12 +33,12 @@ export function BrandCard({ brand, index }: { brand: Brand; index: number }) {
             className="group flex flex-col h-full w-full overflow-hidden rounded-3xl border border-white/10 bg-zinc-900 shadow-2xl hover:shadow-primary/5 transition-shadow duration-300 cursor-pointer"
         >
             {/* Top Section: Hero Image */}
-            <div className="relative aspect-[4/3] w-full overflow-hidden bg-zinc-800">
+            <div className="relative aspect-video w-full overflow-hidden bg-zinc-800">
                 <Image
                     src={getImageUrl(brand.hero_image) || "/placeholder-brand.jpg"}
                     alt={brand.name}
                     fill
-                    className="object-contain transition-transform duration-700 ease-out group-hover:scale-105"
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
             </div>
