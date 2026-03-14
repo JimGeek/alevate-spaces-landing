@@ -1,7 +1,8 @@
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { CareersSection } from "@/components/CareersSection";
 import { Founder } from "@/types";
-import { Quote, Linkedin, ArrowRight, Hammer, Lightbulb, Users } from "lucide-react";
+import { Quote, Linkedin, Hammer, Lightbulb, Users } from "lucide-react";
 import Image from "next/image";
 
 export const dynamic = 'force-dynamic';
@@ -162,38 +163,8 @@ export default async function FoundersPage() {
                 </div>
             </section>
 
-            {/* 4. Join Us Section */}
-            <section className="py-32 bg-gradient-to-b from-[#050505] to-background border-t border-white/5">
-                <div className="container mx-auto px-6 text-center">
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white to-white/60">The Builders</h2>
-                    <div className="max-w-3xl mx-auto space-y-8">
-                        <p className="text-xl md:text-2xl text-muted-foreground font-light leading-relaxed">
-                            We are currently building our core team of visionaries and executors.
-                        </p>
-
-                        <div className="py-8">
-                            <h3 className="text-3xl md:text-4xl font-bold text-white mb-2">Come Join The Revolution</h3>
-                            <p className="text-primary/80 font-medium tracking-wide uppercase text-sm">Be part of the future of living</p>
-                        </div>
-
-                        <div className="flex flex-col items-center gap-6">
-                            <a
-                                href="mailto:career@alevate.space"
-                                className="group relative inline-flex items-center gap-3 px-10 py-5 rounded-full bg-white text-black font-bold text-lg hover:bg-primary hover:scale-105 transition-all duration-300 shadow-2xl shadow-white/10 overflow-hidden"
-                            >
-                                <span className="relative z-10 flex items-center gap-2">
-                                    Apply Now <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                                </span>
-                                <div className="absolute inset-0 bg-primary translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 ease-out" />
-                            </a>
-
-                            <p className="text-sm text-zinc-500">
-                                or email us at <a href="mailto:career@alevate.space" className="text-white hover:text-primary transition-colors border-b border-white/20 pb-0.5">career@alevate.space</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            {/* 4. Careers Section */}
+            <CareersSection />
 
             <Footer />
         </main>
