@@ -49,15 +49,13 @@ export function BrandCard({ brand, index }: { brand: Brand; index: number }) {
                 {/* Overlapping Logo */}
                 <div className="-mt-12 mb-3 inline-block">
                     {brand.logo ? (
-                        <div className="h-24 w-24 rounded-2xl bg-zinc-900 border-4 border-zinc-900 shadow-xl flex items-center justify-center overflow-hidden">
-                            <div className="h-full w-full bg-white p-2 flex items-center justify-center relative">
-                                <Image
-                                    src={getImageUrl(brand.logo)}
-                                    alt={`${brand.name} logo`}
-                                    fill
-                                    className="object-contain p-2"
-                                />
-                            </div>
+                        <div className="h-24 w-24 rounded-2xl bg-white border-4 border-zinc-900 shadow-xl relative overflow-hidden">
+                            <Image
+                                src={getImageUrl(brand.logo)}
+                                alt={`${brand.name} logo`}
+                                fill
+                                className="object-contain p-2"
+                            />
                         </div>
                     ) : (
                         <div className="h-24 w-24 rounded-2xl bg-zinc-800 border-4 border-zinc-900"></div>
