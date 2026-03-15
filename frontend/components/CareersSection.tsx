@@ -29,7 +29,8 @@ export function CareersSection() {
         fetch(`${API_URL}/api/v1/hrms/public/jobs/`)
             .then((r) => r.json())
             .then((data) => {
-                const list = Array.isArray(data) ? data : (data.results || []);
+                // GeniusOS wraps responses: { success: true, data: [...] }
+                const list = Array.isArray(data) ? data : (Array.isArray(data.data) ? data.data : (data.results || []));
                 setJobs(list);
             })
             .catch(() => setJobs([]))
