@@ -21,6 +21,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "api.superhomes.app",
       },
+      {
+        protocol: "http",
+        hostname: "api.superhomes.app",
+      },
     ],
   },
 };

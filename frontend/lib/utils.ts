@@ -7,7 +7,10 @@ export function cn(...inputs: ClassValue[]) {
 
 export function getImageUrl(path: string | null | undefined): string {
     if (!path) return "";
-    if (path.startsWith("http")) return path;
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
-    return `${baseUrl}${path}`;
+    // Build absolute URL from relative path
+    const url = path.startsWith("http")
+        ? path
+        : `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}${path}`;
+    // Upgrade http → https for production API domain so Next.js image optimisation accepts it
+    return url.replace(/^http:\/\/api\.superhomes\.app/, "https://api.superhomes.app");
 }
