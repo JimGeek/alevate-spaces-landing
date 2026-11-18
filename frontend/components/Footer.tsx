@@ -28,7 +28,13 @@ export function Footer() {
                 </div>
 
                 <div className="pt-8 border-t border-white/5 text-center flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p className="text-sm text-muted-foreground/40">© 2026 Alevate Spaces Pvt Ltd. All rights reserved.</p>
+                    <div className="text-sm text-muted-foreground/40 space-y-1">
+                        <p>© 2026 Alevate Spaces Private Limited. All rights reserved.</p>
+                        <p>
+                            <a href="https://www.contentos.social" className="hover:text-white transition-colors">ContentOS</a>{' '}
+                            by Alevate Spaces Private Limited
+                        </p>
+                    </div>
                     <div className="flex gap-6 text-sm text-muted-foreground/40">
                         <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
                         <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
